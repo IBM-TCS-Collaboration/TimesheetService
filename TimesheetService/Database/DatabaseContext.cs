@@ -16,7 +16,7 @@ namespace TimesheetService.Database
         public DbSet<DescriptionTB> descriptionTB { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(@"server=localhost; port=3360; database=timesheetdb; user=root; password=password");
+            optionsBuilder.UseMySql(@"server=ts-management-db; port=3306; database=timesheetdb; user=root; password=password");
         }
     }
 }
