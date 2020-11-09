@@ -38,19 +38,20 @@ namespace TimesheetService.Controllers
             return db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetmaster where userID={0}",UserID);
         }
 
-        [ActionName("getTimesheetDetails")]
-        [HttpGet("{TimesheetID}")]
-        public IEnumerable<TimesheetDetails> GetTimesheetDetails(int TimesheetID)
+        [ActionName("getAllTimesheetMaster")]
+        [HttpGet]
+        public IEnumerable<TimesheetMaster> getAllTimesheetMaster()
         {
-            return db.timesheetDetails.FromSql("SELECT * FROM timesheetdb.timesheetdetails where TimesheetID={0}", TimesheetID);
+            return db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetmaster");
         }
 
-        // GET api/<TimesheetController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+
+        [ActionName("getTimesheetDetails")]
+        [HttpGet("{TimesheetMasterID}")]
+        public IEnumerable<TimesheetDetails> GetTimesheetDetails(int TimesheetMasterID)
+        {
+            return db.timesheetDetails.FromSql("SELECT * FROM timesheetdb.timesheetdetails where TimesheetMasterID={0}", TimesheetMasterID);
+        }
 
         [ActionName("insertTimesheetMaster")]
         // POST api/<TimesheetController>
@@ -60,7 +61,10 @@ namespace TimesheetService.Controllers
             db.timesheetMaster.Add(m1);
             
             db.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created);
+
+            var query = db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetmaster order by TimesheetMasterID desc limit 1");
+
+            return Ok(query);
         }
 
         [ActionName("insertTimesheetDetail")]
@@ -68,9 +72,16 @@ namespace TimesheetService.Controllers
         public IActionResult Post([FromBody] TimesheetDetails m2)
         {
             db.timesheetDetails.Add(m2);
-
             db.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created);
+        }
 
+        [ActionName("insertDescriptionTB")]
+        [HttpPost]
+        public IActionResult Post([FromBody] DescriptionTB m3)
+        {
+            db.descriptionTB.Add(m3);
+            db.SaveChanges();
             return StatusCode(StatusCodes.Status201Created);
         }
 
