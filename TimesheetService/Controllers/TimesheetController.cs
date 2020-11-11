@@ -35,7 +35,7 @@ namespace TimesheetService.Controllers
         [HttpGet("{UserID}")]
         public IEnumerable<TimesheetMaster> GetTimesheetMaster(int UserID)
         {
-            return db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetmaster where userID={0}",UserID);
+            return db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetMaster where userID={0}",UserID);
         }
 
         [ActionName("getAllTimesheetMaster")]
@@ -50,7 +50,7 @@ namespace TimesheetService.Controllers
         [HttpGet("{TimesheetMasterID}")]
         public IEnumerable<TimesheetDetails> GetTimesheetDetails(int TimesheetMasterID)
         {
-            return db.timesheetDetails.FromSql("SELECT * FROM timesheetdb.timesheetdetails where TimesheetMasterID={0}", TimesheetMasterID);
+            return db.timesheetDetails.FromSql("SELECT * FROM timesheetdb.timesheetDetails where TimesheetMasterID={0}", TimesheetMasterID);
         }
 
         [ActionName("insertTimesheetMaster")]
@@ -62,7 +62,7 @@ namespace TimesheetService.Controllers
             
             db.SaveChanges();
 
-            var query = db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetmaster order by TimesheetMasterID desc limit 1");
+            var query = db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetMaster order by TimesheetMasterID desc limit 1");
 
             return Ok(query);
         }
