@@ -29,6 +29,78 @@ namespace TimesheetService.Controllers
             db = new DatabaseContext();
 
         }
+        
+        [ActionName("TimesheetSubmittedCount")]
+        [HttpGet]
+        public IActionResult GetTimesheetSubmittedCount()
+        {
+            var TimesheetSubmittedCount = db.timesheetMaster.Count();
+            return Ok(TimesheetSubmittedCount);
+        }
+
+        [ActionName("TimesheetSubmittedCount")]
+        [HttpGet("{UserID}")]
+        public IActionResult GetTimesheetSubmittedCount(int UserID)
+        {
+
+
+            var TimesheetSubmittedCount = db.timesheetMaster.Where(a => a.UserID == UserID).Count();
+
+            return Ok(TimesheetSubmittedCount);
+        }
+
+        [ActionName("TimesheetSubmittedApprovedCount")]
+        [HttpGet("{UserID}")]
+        public IActionResult TimesheetSubmittedApprovedCount(int UserID)
+        {
+            var ExpenseSubmittedApprovedCount = (from e in db.timesheetMaster
+                                                 where e.UserID == UserID && e.TimesheetStatus == 1
+                                                 select e.UserID).Count();
+
+
+
+            // string json = JsonConvert.SerializeObject(ExpenseSubmittedApprovedCount, Formatting.Indented);
+            return Ok(ExpenseSubmittedApprovedCount);
+
+        }
+
+        [ActionName("TimesheetSubmittedRejectedCount")]
+        [HttpGet("{UserID}")]
+        public IActionResult TimesheetSubmittedRejectedCount(int UserID)
+        {
+            var TimesheetSubmittedRejectedCount = (from e in db.timesheetMaster
+                                                 where e.UserID == UserID && e.TimesheetStatus == 2
+                                                 select e.UserID).Count();
+
+            return Ok(TimesheetSubmittedRejectedCount);
+
+        }
+
+        [ActionName("TimesheetSubmittedApprovedCount")]
+        [HttpGet]
+        public IActionResult TimesheetSubmittedApprovedCount()
+        {
+            var TimesheetSubmittedApprovedCount = (from e in db.timesheetMaster
+                                                 where e.TimesheetStatus == 1
+                                                 select e.UserID).Count();
+
+
+
+            return Ok(TimesheetSubmittedApprovedCount);
+        }
+
+        [ActionName("TimesheetSubmittedRejectedCount")]
+        [HttpGet]
+        public IActionResult TimesheetSubmittedRejectedCount()
+        {
+            var TimesheetSubmittedRejectedCount = (from e in db.timesheetMaster
+                                                 where e.TimesheetStatus == 2
+                                                 select e.UserID).Count();
+
+
+
+            return Ok(TimesheetSubmittedRejectedCount);
+        }
         // GET: api/<TimesheetController>
 
         [ActionName("getTimesheetMaster")]
