@@ -42,7 +42,7 @@ namespace TimesheetService.Controllers
         [HttpGet]
         public IEnumerable<TimesheetMaster> getAllTimesheetMaster()
         {
-            return db.timesheetMaster.FromSql("SELECT * FROM Timesheetdb.Timesheetmaster");
+            return db.timesheetMaster.FromSql("SELECT * FROM timesheetdb.timesheetMaster");
         }
 
 
