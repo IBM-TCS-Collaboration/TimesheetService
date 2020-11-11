@@ -119,5 +119,25 @@ namespace TimesheetService.Controllers
 
             return Ok();
         }
+        
+         [ActionName("TimesheetApproval")]
+        [HttpPut("{TimesheetMasterID}")]
+        public IActionResult TimesheetApproval([FromBody] TimesheetMaster n)
+        {
+            var existingTs = db.timesheetMaster.Where(s => s.TimesheetMasterId == n.TimesheetMasterId).FirstOrDefault<TimesheetMaster>();
+
+
+            if (existingTs != null)
+            {
+                existingTs.TimesheetStatus = n.TimesheetStatus;
+                db.SaveChanges();
+
+            }
+            else
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
     }
 }
